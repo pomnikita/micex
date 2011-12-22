@@ -1,0 +1,46 @@
+= form_for @trade, :url => share_trades_path(parent) do |f|
+  -if @trade.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@trade.errors.count, "error")} prohibited this trade from being saved:"
+      %ul
+        - @trade.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :tradeno
+    = f.number_field :tradeno
+  .field
+    = f.label :tradetime
+    = f.datetime_select :tradetime
+  .field
+    = f.label :boardid
+    = f.text_field :boardid
+  .field
+    = f.label :secid
+    = f.text_field :secid
+  .field
+    = f.label :price
+    = f.text_field :price
+  .field
+    = f.label :quantity
+    = f.number_field :quantity
+  .field
+    = f.label :value
+    = f.text_field :value
+  .field
+    = f.label :period
+    = f.text_field :period
+  .field
+    = f.label :tradetime_grp
+    = f.number_field :tradetime_grp
+  .field
+    = f.label :systime
+    = f.datetime_select :systime
+  .field
+    = f.label :buysell
+    = f.text_field :buysell
+  .field
+    = f.label :decimals
+    = f.number_field :decimals
+  .actions
+    = f.submit 'save'

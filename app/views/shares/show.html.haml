@@ -1,0 +1,42 @@
+%p#notice= notice
+= content_for :title do
+  = @share.ticker
+    
+.charts.clearfix
+  .float-left
+    %ul
+      %li= link_to "Buy/sell cumulative", buysell_share_charts_path(@share)
+      - for trade_stat in @trade_stats do
+        %li= link_to "Buy/sell graph for #{trade_stat.date.to_s}", buysell_share_charts_path(@share, :date => trade_stat.date.to_s)
+      %hr
+      = link_to "<button>Update data from Micex</button>".html_safe, update_data_share_path(@share), :remote => true, :id => "update-data"
+      %br
+      = link_to "<button>Update buy/sell charts</button>".html_safe, update_charts_share_charts_path(@share), :remote => true, :id => "update-data2"
+  .float-left
+    .chart-periods-links
+      = link_to "year", "#", :class => '', :id => 'show-year-chart', :data_period => 'year-chart'
+      |
+      = link_to "quarter", "#", :class => '', :id => 'show-quarter-chart', :data_period => 'quarter-chart'
+      |
+      = link_to "month", "#", :class => '', :id => 'show-month-chart', :data_period => 'month-chart'
+      |
+      = link_to "week", "#", :class => '', :id => 'show-week-chart', :data_period => 'week-chart'
+      |
+      = link_to "day", "#", :id => 'show-day-chart', :data_period => 'day-chart', :class => 'active'
+    .micex-charts
+      .year-chart{:style => 'display:none;'}= chart_from_micex_for(@share, 1.year.ago, 1.day.from_now, 'year')
+      .quarter-chart{:style => 'display:none;'}= chart_from_micex_for(@share, 3.month.ago, 1.day.from_now, 'quarter')
+      .month-chart{:style=>'display:none;'}= chart_from_micex_for(@share, 31.days.ago, 1.day.from_now, 'month')
+      .week-chart{:style=>'display:none;'}= chart_from_micex_for(@share, 7.days.ago, 1.day.from_now, 'week')
+      .day-chart= chart_from_micex_for(@share, 7.day.ago, 1.day.from_now, 'day')
+
+
+%p
+  %b Ticker:
+  = @share.ticker
+
+= link_to 'Edit', edit_share_path(@share)
+|
+= link_to 'Back', shares_path
+|
+= link_to 'show trades', share_trades_path(@share)

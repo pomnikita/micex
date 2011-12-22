@@ -1,0 +1,36 @@
+// Place all the styles related to the shares controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.loader{
+	$image: "ajax-loader.gif";
+	background: inline-image($image);
+	height: image-height($image);
+	width: image-width($image);
+	margin: auto;
+}
+
+.charts{
+	// padding: 50px;
+}
+
+.update-share-data{
+	// padding:50px;
+}
+
+.main{
+	width:100%;
+}
+
+.chart-periods-links{
+	margin-top: 16px;
+	margin-left: 50px;
+	margin-bottom: 10px;
+	a, a:active, a:visited{
+		border-bottom: 1px dashed;
+	  text-decoration: none;
+		&.active{
+			border-bottom: 1px solid;
+		}
+	}
+}

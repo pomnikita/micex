@@ -1,0 +1,34 @@
+= will_paginate @trades
+%h1 Listing trades
+
+%table
+  %tr
+    %th Tradeno
+    %th Tradetime
+    %th Boardid
+    %th Secid
+    %th Price
+    %th Quantity
+    %th Buysell
+    %th
+    %th
+    %th
+
+  - @trades.each do |trade|
+    %tr
+      %td= trade.tradeno
+      %td= trade.tradetime.strftime("%H-%M %m/%d/%Y")
+      %td= trade.boardid
+      %td= trade.secid
+      %td= trade.price
+      %td= trade.quantity
+      %td= trade.buysell
+      %td= link_to 'Show', share_trade_path(parent, trade)
+      %td= link_to 'Edit', edit_share_trade_path(parent,trade)
+      %td= link_to 'Destroy', share_trade_path(parent,trade), :confirm => 'Are you sure?', :method => :delete
+
+%br
+
+= link_to 'New Trade', new_share_trade_path(parent)
+|
+= link_to 'Shares', shares_path

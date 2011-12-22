@@ -1,0 +1,7 @@
+%h3= "OHLC Chart"
+#container{:style=>"width: 100%;height: 650px;"}
+
+:javascript
+  $(function(){
+    ohlcChart(#{@prices}, #{@values});
+  });

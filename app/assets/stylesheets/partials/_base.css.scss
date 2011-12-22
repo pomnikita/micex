@@ -1,0 +1,10 @@
+@import "compass/utilities";
+
+.clearfix{
+	@include clearfix;
+}
+
+.float-left{
+	@include float-left;
+}
+

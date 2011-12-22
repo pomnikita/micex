@@ -1,0 +1,42 @@
+%p#notice= notice
+
+%p
+  %b Tradeno:
+  = @trade.TRADENO
+%p
+  %b Tradetime:
+  = @trade.TRADETIME
+%p
+  %b Boardid:
+  = @trade.BOARDID
+%p
+  %b Secid:
+  = @trade.SECID
+%p
+  %b Price:
+  = @trade.PRICE
+%p
+  %b Quantity:
+  = @trade.QUANTITY
+%p
+  %b Value:
+  = @trade.VALUE
+%p
+  %b Period:
+  = @trade.PERIOD
+%p
+  %b Tradetime grp:
+  = @trade.TRADETIME_GRP
+%p
+  %b Systime:
+  = @trade.SYSTIME
+%p
+  %b Buysell:
+  = @trade.BUYSELL
+%p
+  %b Decimals:
+  = @trade.DECIMALS
+
+= link_to 'Edit', edit_trade_path(@trade)
+\|
+= link_to 'Back', trades_path

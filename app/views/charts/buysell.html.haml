@@ -1,0 +1,9 @@
+%h3= @date ? "Chart for date #{@date.to_s}" : "Cumulative chart"
+#container{:style=>"width: 100%;height: 650px;"}
+- @prices, @values = Trade.buysell_stats_for(Share.find('gazp'), 1.day.ago)
+:javascript
+  $(function(){
+    chart([{name: 'Price', data: #{@prices.first(62000)}, type: 'line'}, {name: 'Value', data: #{@values.first(62000)}, type: 'line', yAxis: 1}], #{@prices.min}, #{@prices.max});
+  });
+
+=# @data.inspect
