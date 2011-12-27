@@ -8,7 +8,8 @@ class SharesController < InheritedResources::Base
   # end
   
   def show
-    @trade_stats = @share.trade_stats.buysell.order([:date,:desc])
+    @values = @share.values.order([:date,:desc])
+    show!
   end
   
   def update_data

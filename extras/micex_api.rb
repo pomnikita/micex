@@ -53,12 +53,16 @@ module MicexApi
     
     def get_trades
       Rails.logger.info "Getting trades"
-      start = Trade.collection.find("tradetime" => {$gt => Time.now.beginning_of_day}, "share_id" => self.id).collection.count
+      start = 
+        Trade.collection.find(
+          {"tradetime" => {"$gt" => Time.now.beginning_of_day}, "share_id" => self.id}, 
+          {:hint => "tradetime_-1"}
+        ).count
       numtrades = get_num_trades
       return nil if numtrades == 0
       remain_trades = numtrades - start
       (0..remain_trades/5000).each do |i|
-        self.delay.get_trades_from(start + 5000*i)
+        self.get_trades_from(start + 5000*i)
       end
     end
   end

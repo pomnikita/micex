@@ -14,11 +14,13 @@ class Trade
   field :buysell, :type => String
 
   index :tradeno
+  index :tradetime
 
   belongs_to :share
   
   scope :for_share, ->(share_id) { where(:share_id => share_id) }
   scope :for_date, ->(date) { where(:tradetime.gt => date.beginning_of_day, :tradetime.lt => date.end_of_day) }
+  scope :for_period, ->(from,to) {where(:tradetime.gt => from.beginning_of_day, :tradetime.lt => to.end_of_day)}
   scope :for_hour, ->(time) { where(:tradetime.gt => time, :tradetime.lt => time + 1.hour)}
   
   def buysell_sign
@@ -44,33 +46,7 @@ class Trade
         firstlast_stats_for(share, date)
       end
     end
-    
-    def buysell_stats_for(share, date)
-      final_hash = {}
-      tradesScope = 
-        Trade.collection.find(
-          {:tradetime => {"$gt" => date.beginning_of_day.utc, "$lt" => date.end_of_day.utc}, :share_id => share.id}, 
-          {:fields => ['price','tradetime','buysell','quantity'], :hint => {tradetime: 1}}
-        )
-      #.group_by{|t| t['tradetime'].hour}
-      # tradesScope = self.where(:share_id => share.id).for_date(date).order_by([:tradeno, :asc]).only(:tradetime, :buysell, :price, :quantity)
-      prices = []
-      values = [get_last_value(share, date).to_i]
-      tradesScope.each do |trade| 
-        prices << trade.price
-        values << values.last + (trade['price']*trade['quantity']*(trade['buysell'] == "B" ? 1 : -1)).round
-      end
-      # tradesScope.each do |hour, trades|
-      #   array = last_value
-      #   trades.each do |trade|
-      #     array << [array.last[0].to_i + (trade['price']*(trade['buysell'] == "B" ? 1 : -1)).round, trade.price]
-      #   end
-      #   last_value = array.last
-      #   final_hash[hour.to_s] = array
-      # end
-      return prices, values
-    end
-    
+        
     def firstlast_stats_for(share, date)
       tradesScope = self.where(:share_id => share.id).for_date(date).order_by([:tradeno, :asc]).only(:tradetime, :buysell, :price, :quantity).all
       return nil unless tradesScope.any?
@@ -94,6 +70,10 @@ class Trade
     
     def prev_day_for(date = Date.today)
       prev_day = date.monday? ? date - 3.days : date.yesterday
+    end
+    
+    def connection
+      @connection ||= Mongoid::Config.database['trades']
     end
   end
 end

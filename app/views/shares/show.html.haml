@@ -5,13 +5,11 @@
 .charts.clearfix
   .float-left
     %ul
-      %li= link_to "Buy/sell cumulative", buysell_share_charts_path(@share)
-      - for trade_stat in @trade_stats do
-        %li= link_to "Buy/sell graph for #{trade_stat.date.to_s}", buysell_share_charts_path(@share, :date => trade_stat.date.to_s)
+      %li= link_to "Buy/sell cumulative", buysell_share_charts_path(@share, :from => @share.values.first.date)
+      - for value in @values do
+        %li= link_to "Buy/sell graph for #{value.date.to_s}", buysell_share_charts_path(@share, :from => value.date.to_s, :to => value.date.to_s)
       %hr
       = link_to "<button>Update data from Micex</button>".html_safe, update_data_share_path(@share), :remote => true, :id => "update-data"
-      %br
-      = link_to "<button>Update buy/sell charts</button>".html_safe, update_charts_share_charts_path(@share), :remote => true, :id => "update-data2"
   .float-left
     .chart-periods-links
       = link_to "year", "#", :class => '', :id => 'show-year-chart', :data_period => 'year-chart'
