@@ -31,7 +31,7 @@ class Value
       new_value = Value.find_or_initialize_by(:share_id => share.id, :date => date)
       new_value.values = values
       # new_value.last = last_value
-      new_value.save
+      return new_value.save
     end
     
     def get_last_value(share, date)
