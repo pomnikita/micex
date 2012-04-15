@@ -1,5 +1,5 @@
 class Trade
-  include MicexApi  
+  include MicexApi
   include Mongoid::Document
   include Mongoid::Timestamps
 

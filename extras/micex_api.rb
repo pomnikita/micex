@@ -1,5 +1,9 @@
 require "net/http"
+# require 'active_support/concern'
+
 module MicexApi
+  extend ActiveSupport::Concern
+  
   module ClassMethods
   end
 
@@ -67,8 +71,8 @@ module MicexApi
     end
   end
 
-  def self.included(base)
-    base.send :include, InstanceMethods
-    base.send :extend, ClassMethods
-  end
+  # def self.included(base)
+  #   base.send :include, InstanceMethods
+  #   base.send :extend, ClassMethods
+  # end
 end

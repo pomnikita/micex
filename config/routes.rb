@@ -2,6 +2,7 @@ Micex::Application.routes.draw do
 
   resources :shares do
     get :update_data, :on => :member
+    get :update_monthly_values, :on => :member
     resources :trades
     resources :charts do
       get :buysell, :on => :collection

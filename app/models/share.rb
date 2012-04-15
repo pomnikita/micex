@@ -1,5 +1,6 @@
 class Share
-  include MicexApi  
+  include MicexApi
+  include MicexCsvApi
   include Mongoid::Document
   field :ticker, :type => String
   field :board, :type => String
@@ -8,6 +9,7 @@ class Share
   has_many :trades
   has_many :trade_stats
   has_many :values
+  has_many :monthly_values
   
   def get_trades_by_api
     self.get_trades

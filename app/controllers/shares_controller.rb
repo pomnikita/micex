@@ -5,17 +5,14 @@ class SharesController < InheritedResources::Base
   # before_filter :get_share, :only => [:show, :update_data]
   before_filter :get_values, :only => :show
   
-  # def collection
-  #   @shares ||= Share.all
-  # end
-  
-  # def show
-  #   @values = @share.values.order([:date,:desc])
-  #   show!
-  # end
-  
   def update_data
     Value.daily_values_for(resource) if resource.get_trades_by_api
+  end
+  
+  def update_monthly_values
+    result = MonthlySummary.generate_for(resource, Date.today.month, Date.today.year)
+    message = result ? "Updates" : "Error"
+    redirect_to resource, :flash => {:notice => message}
   end
   
   private
@@ -23,9 +20,4 @@ class SharesController < InheritedResources::Base
   def get_values
     @values = resource.values.order([:date,:desc])
   end
-  # 
-  # def get_share
-  #   @share ||= Share.find(params[:id])
-  # end
-  
 end
